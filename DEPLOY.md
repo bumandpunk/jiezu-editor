@@ -239,34 +239,8 @@ npm install
 
 ```bash
 cat > /var/www/jiezu/frontend/editor/.env.production << 'EOF'
-# ── 后端 API ──────────────────────────────────────────────────
-# 前端请求后端的基础地址（EggJS）
+# 后端 API 地址（EggJS，填写你的域名）
 NEXT_PUBLIC_API_URL=https://api.你的域名.com
-
-# ── Supabase（数据库 / Auth）────────────────────────────────────
-# Supabase 项目 URL（在 Supabase 控制台 Settings → API 获取）
-NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
-# Supabase Anon Key（公开，可写入客户端）
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-
-# ── 数据库直连（Server Side Only）─────────────────────────────
-# Supabase Postgres 连接串（在 Supabase 控制台 Settings → Database 获取）
-POSTGRES_URL=postgresql://postgres:[密码]@db.xxxx.supabase.co:5432/postgres
-# Supabase Service Role Key（服务端专用，不能泄露到客户端）
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-
-# ── Auth（Better Auth）──────────────────────────────────────────
-# 随机长字符串，用于签名 session（可用 openssl rand -hex 32 生成）
-BETTER_AUTH_SECRET=替换为随机字符串
-
-# ── OAuth（可选）────────────────────────────────────────────────
-# Google OAuth（在 Google Cloud Console 创建凭据后填入）
-# GOOGLE_CLIENT_ID=xxx.apps.googleusercontent.com
-# GOOGLE_CLIENT_SECRET=GOCSPX-xxx
-
-# ── 邮件（可选）────────────────────────────────────────────────
-# Resend API Key（https://resend.com）
-# RESEND_API_KEY=re_xxx
 EOF
 ```
 
@@ -374,7 +348,7 @@ tail -f /var/log/jiezu-backend/common-error.log
 
 所有敏感配置**不要写死在代码里**，通过环境变量或 `config.prod.js` 注入。
 
-### 后端环境变量（服务器系统级，读取自 `process.env`）
+### 后端（服务器系统级环境变量，供 `config.default.js` 读取）
 
 | 变量名 | 必填 | 说明 | 获取方式 |
 |--------|:----:|------|---------|
@@ -382,21 +356,22 @@ tail -f /var/log/jiezu-backend/common-error.log
 | `COS_SECRET_KEY` | ✅ | 腾讯云 COS SecretKey | 同上 |
 | `COS_BUCKET` | ✅ | COS Bucket 名称（含 AppId） | COS 控制台，如 `hso-1256704435` |
 | `COS_REGION` | ✅ | COS 地域标识 | COS 控制台，如 `ap-guangzhou` |
-| `COS_DOMAIN` | ☐ | COS 自定义 CDN 域名 | 留空则使用 COS 默认域名 |
+| `COS_DOMAIN` | ☐ | 自定义 CDN 域名 | 留空则用 COS 默认域名 |
 
-### 前端环境变量（写入 `frontend/editor/.env.production`）
+```bash
+# 写入服务器，重启后永久生效
+echo 'COS_SECRET_ID=AKIDxxxxx' >> /etc/environment
+echo 'COS_SECRET_KEY=xxxxxxxx' >> /etc/environment
+echo 'COS_BUCKET=your-bucket-1256704435' >> /etc/environment
+echo 'COS_REGION=ap-guangzhou' >> /etc/environment
+source /etc/environment
+```
 
-| 变量名 | 必填 | 说明 | 获取方式 |
-|--------|:----:|------|---------|
-| `NEXT_PUBLIC_API_URL` | ✅ | 后端 EggJS API 基础地址 | 填写你的域名，如 `https://api.xxx.com` |
-| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | Supabase 项目 URL | Supabase 控制台 → Settings → API |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Supabase 匿名公钥 | Supabase 控制台 → Settings → API |
-| `POSTGRES_URL` | ✅ | Supabase Postgres 连接串 | Supabase 控制台 → Settings → Database |
-| `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Supabase 服务端密钥（勿泄露） | Supabase 控制台 → Settings → API |
-| `BETTER_AUTH_SECRET` | ✅ | Session 签名密钥（随机字符串） | `openssl rand -hex 32` |
-| `GOOGLE_CLIENT_ID` | ☐ | Google OAuth 客户端 ID | Google Cloud Console |
-| `GOOGLE_CLIENT_SECRET` | ☐ | Google OAuth 客户端密钥 | Google Cloud Console |
-| `RESEND_API_KEY` | ☐ | 邮件发送 API Key | https://resend.com |
+### 前端（`frontend/editor/.env.production`）
+
+| 变量名 | 必填 | 说明 |
+|--------|:----:|------|
+| `NEXT_PUBLIC_API_URL` | ✅ | 后端 EggJS API 基础地址，如 `https://api.xxx.com` |
 
 ---
 

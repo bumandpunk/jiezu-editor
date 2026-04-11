@@ -70,7 +70,7 @@ npm install -g pm2
 pm2 -v
 ```
 
-### 2.4 安装 Nginx
+### 2.5 安装 Nginx
 
 ```bash
 apt install -y nginx
@@ -142,7 +142,7 @@ module.exports = () => {
   config.keys = '修改为随机长字符串_生产密钥';
 
   config.logger = {
-    dir: '/var/log/jiezu-backend',
+    dir: '/var/log/jiezu-server',
   };
 
   config.mysql = {
@@ -208,7 +208,7 @@ EOF
 ### 4.4 创建日志目录
 
 ```bash
-mkdir -p /var/log/jiezu-backend
+mkdir -p /var/log/jiezu-server
 ```
 
 ### 4.5 用 egg-scripts 启动后端
@@ -224,7 +224,7 @@ curl http://127.0.0.1:7001/api/health
 # 期望返回：{"status":"ok","time":"..."}
 ```
 
-> `npm run start` 即 `egg-scripts start --daemon --title=jiezu-backend`，EggJS 自带进程守护，无需额外 PM2 管理后端。
+> `npm run start` 即 `egg-scripts start --daemon --title=jiezu-server`，EggJS 自带进程守护，无需额外 PM2 管理后端。
 
 **停止后端：**
 ```bash
@@ -256,10 +256,11 @@ EOF
 
 ### 5.3 构建
 
+> `env.mjs` 中有 Supabase 校验逻辑（上游模板遗留），构建时需跳过：
+
 ```bash
 cd /var/www/jiezu
-# 构建前端（在 monorepo 根目录执行，turbo 会编排构建顺序）
-bun run build
+SKIP_ENV_VALIDATION=1 bun run build
 ```
 
 ### 5.4 用 PM2 启动前端
@@ -346,8 +347,8 @@ npm run start   # 启动
 npm run stop    # 停止
 
 # 查看后端日志
-tail -f /var/log/jiezu-backend/jiezu-backend-web.log
-tail -f /var/log/jiezu-backend/common-error.log
+tail -f /var/log/jiezu-server/jiezu-server-web.log
+tail -f /var/log/jiezu-server/common-error.log
 ```
 
 ---
@@ -405,7 +406,7 @@ curl http://127.0.0.1:7001/api/health       # 验证
 cd /var/www/jiezu
 git pull
 bun install
-bun run build                               # turbo 重新构建
+SKIP_ENV_VALIDATION=1 bun run build         # turbo 重新构建
 pm2 restart jiezu-frontend                  # 重启
 ```
 

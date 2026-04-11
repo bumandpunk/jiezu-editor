@@ -15,6 +15,32 @@ import { CATALOG_ITEMS } from './catalog-items'
 
 const PLACEMENT_TAGS = new Set(['floor', 'wall', 'ceiling', 'countertop'])
 
+const TAG_LABELS: Record<string, string> = {
+  floor: '地面',
+  wall: '墙面',
+  ceiling: '天花板',
+  countertop: '台面',
+  bedroom: '卧室',
+  climate: '暖通',
+  decor: '装饰',
+  electrical: '电气',
+  electronics: '电子',
+  fencing: '围栏',
+  fitness: '健身',
+  garage: '车库',
+  kids: '儿童',
+  large: '大型',
+  leisure: '休闲',
+  lighting: '灯具',
+  safety: '安全',
+  seating: '座椅',
+  sports: '运动',
+  storage: '收纳',
+  structure: '结构',
+  table: '桌几',
+  vegetation: '植物',
+}
+
 export function ItemCatalog({ category }: { category: CatalogCategory }) {
   const selectedItem = useEditor((state) => state.selectedItem)
   const setSelectedItem = useEditor((state) => state.setSelectedItem)
@@ -91,7 +117,7 @@ export function ItemCatalog({ category }: { category: CatalogCategory }) {
                 onClick={() => setActivePlacementTag(null)}
                 type="button"
               >
-                All
+                全部
               </button>
               {placementTags.map((tag) => {
                 const count = placementCount(tag)
@@ -112,7 +138,7 @@ export function ItemCatalog({ category }: { category: CatalogCategory }) {
                     onClick={() => setActivePlacementTag(isActive ? null : tag)}
                     type="button"
                   >
-                    {tag}
+                    {TAG_LABELS[tag] ?? tag}
                     <span
                       className={cn(
                         'text-[10px]',
@@ -149,7 +175,7 @@ export function ItemCatalog({ category }: { category: CatalogCategory }) {
                     onClick={() => setActiveFunctionalTag(isActive ? null : tag)}
                     type="button"
                   >
-                    {tag}
+                    {TAG_LABELS[tag] ?? tag}
                     <span
                       className={cn(
                         'text-[10px]',

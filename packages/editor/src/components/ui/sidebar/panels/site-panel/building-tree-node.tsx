@@ -62,7 +62,7 @@ export function BuildingTreeNode({ node, depth, isLast }: BuildingTreeNodeProps)
       isHovered={isHovered}
       isLast={isLast}
       isSelected={isSelected}
-      label={node.name || 'Building'}
+      label={node.name || '建筑'}
       onClick={handleClick}
       onDoubleClick={() => focusTreeNode(node.id)}
       onToggle={() => setExpanded(!expanded)}

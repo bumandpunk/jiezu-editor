@@ -199,7 +199,7 @@ export const ViewerOverlay = ({
                       className={`truncate transition-colors ${zone ? 'text-muted-foreground hover:text-foreground' : 'font-medium text-foreground'}`}
                       onClick={() => handleBreadcrumbClick('level')}
                     >
-                      {level.name || `Level ${level.level}`}
+                      {level.name || `楼层 ${level.level}`}
                     </button>
                   </>
                 )}
@@ -232,7 +232,7 @@ export const ViewerOverlay = ({
         {building && levels.length > 0 && (
           <div className="pointer-events-auto flex w-48 flex-col overflow-hidden rounded-2xl border border-border/40 bg-background/95 py-1 shadow-lg backdrop-blur-xl transition-colors duration-200 ease-out">
             <span className="px-3 py-2 font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
-              Levels
+              楼层
             </span>
             <div className="flex flex-col">
               {levels.map((lvl) => {
@@ -258,7 +258,7 @@ export const ViewerOverlay = ({
                         <Layers className="h-3.5 w-3.5" />
                       </span>
                       <div className="min-w-0 flex-1 truncate text-left">
-                        {lvl.name || `Level ${lvl.level}`}
+                        {lvl.name || `楼层 ${lvl.level}`}
                       </div>
                     </div>
                   </button>
@@ -275,7 +275,7 @@ export const ViewerOverlay = ({
           <div className="pointer-events-auto flex h-14 flex-row items-center justify-center gap-1.5 rounded-2xl border border-border/40 bg-background/95 p-1.5 shadow-lg backdrop-blur-xl transition-colors duration-200 ease-out">
             {/* Theme Toggle */}
             <button
-              aria-label="Toggle theme"
+              aria-label="切换主题"
               className="flex h-[36px] shrink-0 cursor-pointer items-center rounded-full border border-border/50 bg-accent/50 p-1"
               onClick={() => useViewer.getState().setTheme(theme === 'dark' ? 'light' : 'dark')}
               type="button"

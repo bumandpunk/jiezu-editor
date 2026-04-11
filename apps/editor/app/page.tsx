@@ -10,7 +10,7 @@ import {
 const SIDEBAR_TABS: (SidebarTab & { component: React.ComponentType })[] = [
   {
     id: 'site',
-    label: 'Scene',
+    label: '场景',
     component: () => null, // Built-in SitePanel handles this
   },
 ]

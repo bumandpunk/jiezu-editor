@@ -53,7 +53,17 @@ nvm use 20
 node -v   # 应输出 v20.x.x
 ```
 
-### 2.3 安装 PM2
+### 2.3 安装 Bun
+
+前端 monorepo 使用 bun 管理依赖：
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+source ~/.bashrc
+bun -v   # 应输出 1.x.x
+```
+
+### 2.4 安装 PM2
 
 ```bash
 npm install -g pm2
@@ -232,7 +242,7 @@ cd /var/www/jiezu/backend && npm run stop
 git clone https://你的git地址/editor.git /var/www/jiezu
 
 cd /var/www/jiezu
-npm install
+bun install
 ```
 
 ### 5.2 创建环境变量文件
@@ -248,10 +258,8 @@ EOF
 
 ```bash
 cd /var/www/jiezu
-# 构建前端（monorepo 结构，在根目录执行）
-npm run build --workspace=frontend/editor
-# 或者直接进子目录
-cd frontend/editor && npm run build
+# 构建前端（在 monorepo 根目录执行，turbo 会编排构建顺序）
+bun run build
 ```
 
 ### 5.4 用 PM2 启动前端
@@ -259,12 +267,12 @@ cd frontend/editor && npm run build
 ```bash
 cd /var/www/jiezu/frontend/editor
 
-pm2 start npm --name "jiezu-frontend" -- start
+pm2 start bun --name "jiezu-frontend" -- run start
 pm2 save
 pm2 startup   # 按提示执行输出的命令，设置开机自启
 ```
 
-> Next.js `npm run start` 默认监听 3000 端口。
+> Next.js `bun run start` 默认监听 3000 端口。
 
 ---
 
@@ -396,8 +404,8 @@ curl http://127.0.0.1:7001/api/health       # 验证
 ```bash
 cd /var/www/jiezu
 git pull
-npm install
-cd frontend/editor && npm run build         # 重新构建
+bun install
+bun run build                               # turbo 重新构建
 pm2 restart jiezu-frontend                  # 重启
 ```
 

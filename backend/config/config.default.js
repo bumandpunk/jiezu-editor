@@ -36,7 +36,7 @@ module.exports = () => {
     agent: false,
   };
 
-  // 腾讯云 COS 配置
+  // 腾讯云 COS 配置（密钥必须通过环境变量注入，不要写死）
   config.cos = {
     secretId: process.env.COS_SECRET_ID || '',
     secretKey: process.env.COS_SECRET_KEY || '',

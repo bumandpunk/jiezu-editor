@@ -449,14 +449,14 @@ export const ViewerOverlay = ({
             {/* Camera Actions */}
             <ActionButton
               className="group hidden hover:bg-white/5 sm:inline-flex"
-              label="Orbit Left"
+              label="向左旋转"
               onClick={() => emitter.emit('camera-controls:orbit-ccw')}
               size="icon"
               tooltipSide="top"
               variant="ghost"
             >
               <img
-                alt="Orbit Left"
+                alt="向左旋转"
                 className="h-[28px] w-[28px] -scale-x-100 object-contain opacity-70 transition-opacity group-hover:opacity-100"
                 src="/icons/rotate.png"
               />
@@ -464,14 +464,14 @@ export const ViewerOverlay = ({
 
             <ActionButton
               className="group hidden hover:bg-white/5 sm:inline-flex"
-              label="Orbit Right"
+              label="向右旋转"
               onClick={() => emitter.emit('camera-controls:orbit-cw')}
               size="icon"
               tooltipSide="top"
               variant="ghost"
             >
               <img
-                alt="Orbit Right"
+                alt="向右旋转"
                 className="h-[28px] w-[28px] object-contain opacity-70 transition-opacity group-hover:opacity-100"
                 src="/icons/rotate.png"
               />

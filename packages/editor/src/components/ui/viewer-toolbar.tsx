@@ -209,7 +209,7 @@ function LevelModeToggle() {
           ) : (
             <IconifyIcon height={14} icon="charm:stack-push" width={14} />
           )}
-          <span className="font-medium text-xs">{levelModeLabels[levelMode] ?? 'Stack'}</span>
+          <span className="font-medium text-xs">{levelModeLabels[levelMode] ?? '叠放'}</span>
         </button>
       </TooltipTrigger>
       <TooltipContent side="bottom">

@@ -95,7 +95,7 @@ FLUSH PRIVILEGES;
 EXIT;
 
 # 导入表结构
-mysql -u jiezu -p jiezu < /path/to/server/sql/init.sql
+mysql -u jiezu -p jiezu < /var/www/jiezu/backend/sql/init.sql
 ```
 
 > **建议**：线上不要直接用 root，新建专用账号 `jiezu`。
@@ -106,17 +106,16 @@ mysql -u jiezu -p jiezu < /path/to/server/sql/init.sql
 
 ### 4.1 上传代码
 
-将 `server/` 目录上传到服务器，例如放到 `/var/www/jiezu-server`：
+前后端在同一个仓库，克隆一次即可（如果前端已经克隆，跳过此步）：
 
 ```bash
-# 本地执行（或通过 CI/CD 推送）
-scp -r ./server root@你的服务器IP:/var/www/jiezu-server
+git clone https://你的git地址/editor.git /var/www/jiezu
 ```
 
 ### 4.2 安装依赖
 
 ```bash
-cd /var/www/jiezu-server
+cd /var/www/jiezu/backend
 npm install --production
 ```
 
@@ -124,7 +123,7 @@ npm install --production
 
 ```bash
 # 创建 config/config.prod.js（此文件不进 git，内含敏感信息）
-cat > /var/www/jiezu-server/config/config.prod.js << 'EOF'
+cat > /var/www/jiezu/backend/config/config.prod.js << 'EOF'
 'use strict';
 
 module.exports = () => {
@@ -133,7 +132,7 @@ module.exports = () => {
   config.keys = '修改为随机长字符串_生产密钥';
 
   config.logger = {
-    dir: '/var/log/jiezu-server',
+    dir: '/var/log/jiezu-backend',
   };
 
   config.mysql = {
@@ -166,13 +165,13 @@ EOF
 ### 4.4 创建日志目录
 
 ```bash
-mkdir -p /var/log/jiezu-server
+mkdir -p /var/log/jiezu-backend
 ```
 
-### 4.5 用 PM2 启动后端
+### 4.5 用 egg-scripts 启动后端
 
 ```bash
-cd /var/www/jiezu-server
+cd /var/www/jiezu/backend
 
 # EggJS 生产模式（daemon 模式，自带多进程）
 EGG_SERVER_ENV=prod npm run start
@@ -182,31 +181,31 @@ curl http://127.0.0.1:7001/api/health
 # 期望返回：{"status":"ok","time":"..."}
 ```
 
-> `npm run start` 即 `egg-scripts start --daemon --title=jiezu-server`，EggJS 自带进程守护，无需额外 PM2 管理后端。
+> `npm run start` 即 `egg-scripts start --daemon --title=jiezu-backend`，EggJS 自带进程守护，无需额外 PM2 管理后端。
 
 **停止后端：**
 ```bash
-cd /var/www/jiezu-server && npm run stop
+cd /var/www/jiezu/backend && npm run stop
 ```
 
 ---
 
 ## 5. 前端部署（Next.js）
 
-### 5.1 上传代码并安装依赖
+### 5.1 克隆仓库并安装依赖
 
 ```bash
-# 上传整个 editor 仓库到服务器
-scp -r ./editor root@你的服务器IP:/var/www/jiezu-editor
+# 前后端在同一仓库，如后端已克隆则跳过 git clone
+git clone https://你的git地址/editor.git /var/www/jiezu
 
-cd /var/www/jiezu-editor
+cd /var/www/jiezu
 npm install
 ```
 
 ### 5.2 创建环境变量文件
 
 ```bash
-cat > /var/www/jiezu-editor/frontend/editor/.env.production << 'EOF'
+cat > /var/www/jiezu/frontend/editor/.env.production << 'EOF'
 # 后端 API 地址（填写你的域名或服务器 IP）
 NEXT_PUBLIC_API_URL=https://api.你的域名.com
 EOF
@@ -215,7 +214,7 @@ EOF
 ### 5.3 构建
 
 ```bash
-cd /var/www/jiezu-editor
+cd /var/www/jiezu
 # 构建前端（monorepo 结构，在根目录执行）
 npm run build --workspace=frontend/editor
 # 或者直接进子目录
@@ -225,7 +224,7 @@ cd frontend/editor && npm run build
 ### 5.4 用 PM2 启动前端
 
 ```bash
-cd /var/www/jiezu-editor/frontend/editor
+cd /var/www/jiezu/frontend/editor
 
 pm2 start npm --name "jiezu-frontend" -- start
 pm2 save
@@ -301,13 +300,13 @@ pm2 delete jiezu-frontend
 后端由 EggJS 自带的 `egg-scripts` 管理：
 
 ```bash
-cd /var/www/jiezu-server
+cd /var/www/jiezu/backend
 npm run start   # 启动
 npm run stop    # 停止
 
 # 查看后端日志
-tail -f /var/log/jiezu-server/jiezu-server-web.log
-tail -f /var/log/jiezu-server/common-error.log
+tail -f /var/log/jiezu-backend/jiezu-backend-web.log
+tail -f /var/log/jiezu-backend/common-error.log
 ```
 
 ---
@@ -342,22 +341,23 @@ export COS_SECRET_KEY="xxxxxxxx"
 ### 更新后端
 
 ```bash
-cd /var/www/jiezu-server
-git pull                          # 拉取最新代码
-npm install --production          # 如有新依赖
-npm run stop                      # 停止旧进程
-EGG_SERVER_ENV=prod npm run start # 启动新进程
-curl http://127.0.0.1:7001/api/health  # 验证
+cd /var/www/jiezu
+git pull                                    # 拉取最新代码
+cd backend
+npm install --production                    # 如有新依赖
+npm run stop                                # 停止旧进程
+EGG_SERVER_ENV=prod npm run start           # 启动新进程
+curl http://127.0.0.1:7001/api/health       # 验证
 ```
 
 ### 更新前端
 
 ```bash
-cd /var/www/jiezu-editor
+cd /var/www/jiezu
 git pull
 npm install
-cd frontend/editor && npm run build   # 重新构建
-pm2 restart jiezu-frontend        # 重启
+cd frontend/editor && npm run build         # 重新构建
+pm2 restart jiezu-frontend                  # 重启
 ```
 
 ---
@@ -389,16 +389,16 @@ A: Next.js App Router 需要 Nginx 将所有路径都代理到 3000 端口，当
 
 ```
 /var/www/
-├── jiezu-server/          # EggJS 后端
-│   ├── app/
-│   ├── config/
-│   │   ├── config.default.js
-│   │   └── config.prod.js   ← 线上敏感配置（不进 git）
-│   └── sql/init.sql
-└── jiezu-editor/          # Next.js 前端
-    └── frontend/editor/
-        ├── .env.production  ← 线上环境变量（不进 git）
-        └── .next/           ← 构建产物
+└── jiezu/                         # 整个项目仓库（前后端同仓库）
+    ├── backend/                   # EggJS 后端
+    │   ├── app/
+    │   ├── config/
+    │   │   ├── config.default.js
+    │   │   └── config.prod.js     ← 线上敏感配置（不进 git）
+    │   └── sql/init.sql
+    └── frontend/editor/           # Next.js 前端
+        ├── .env.production        ← 线上环境变量（不进 git）
+        └── .next/                 ← 构建产物
 ```
 
 ---

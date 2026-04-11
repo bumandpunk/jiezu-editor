@@ -2,14 +2,14 @@
 
 ```
 editor/
-├── apps/          # Next.js 前端应用（前端入口：apps/editor）
+├── frontend/      # Next.js 前端应用（入口：frontend/editor）
 ├── packages/      # 前端公共包（editor、viewer、core 等）
 ├── backend/       # EggJS 后端服务（API + 数据库）
 ├── DEPLOY.md      # 线上部署手册
 └── tooling/       # 工具链配置
 ```
 
-## 前端（apps/editor）
+## 前端（frontend/editor）
 
 基于 Next.js 16 + React Three Fiber 的 3D 建造编辑器。
 
@@ -20,7 +20,7 @@ editor/
 npm install
 
 # 启动前端开发服务器（端口 3002）
-cd apps/editor && npm run dev
+cd frontend/editor && npm run dev
 ```
 
 ## 后端（backend/）

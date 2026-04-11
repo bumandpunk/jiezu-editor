@@ -206,7 +206,7 @@ npm install
 ### 5.2 创建环境变量文件
 
 ```bash
-cat > /var/www/jiezu-editor/apps/editor/.env.production << 'EOF'
+cat > /var/www/jiezu-editor/frontend/editor/.env.production << 'EOF'
 # 后端 API 地址（填写你的域名或服务器 IP）
 NEXT_PUBLIC_API_URL=https://api.你的域名.com
 EOF
@@ -217,15 +217,15 @@ EOF
 ```bash
 cd /var/www/jiezu-editor
 # 构建前端（monorepo 结构，在根目录执行）
-npm run build --workspace=apps/editor
+npm run build --workspace=frontend/editor
 # 或者直接进子目录
-cd apps/editor && npm run build
+cd frontend/editor && npm run build
 ```
 
 ### 5.4 用 PM2 启动前端
 
 ```bash
-cd /var/www/jiezu-editor/apps/editor
+cd /var/www/jiezu-editor/frontend/editor
 
 pm2 start npm --name "jiezu-frontend" -- start
 pm2 save
@@ -356,7 +356,7 @@ curl http://127.0.0.1:7001/api/health  # 验证
 cd /var/www/jiezu-editor
 git pull
 npm install
-cd apps/editor && npm run build   # 重新构建
+cd frontend/editor && npm run build   # 重新构建
 pm2 restart jiezu-frontend        # 重启
 ```
 
@@ -396,7 +396,7 @@ A: Next.js App Router 需要 Nginx 将所有路径都代理到 3000 端口，当
 │   │   └── config.prod.js   ← 线上敏感配置（不进 git）
 │   └── sql/init.sql
 └── jiezu-editor/          # Next.js 前端
-    └── apps/editor/
+    └── frontend/editor/
         ├── .env.production  ← 线上环境变量（不进 git）
         └── .next/           ← 构建产物
 ```

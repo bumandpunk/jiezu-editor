@@ -1,0 +1,27 @@
+-- 捷租先登建造工具 数据库初始化脚本
+-- 执行前请先创建数据库：CREATE DATABASE jiezu CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE jiezu;
+
+-- 用户表
+CREATE TABLE IF NOT EXISTS `users` (
+  `id`            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `phone`         VARCHAR(11) NOT NULL UNIQUE COMMENT '手机号',
+  `password_hash` VARCHAR(100) NOT NULL COMMENT '加密密码',
+  `avatar_url`    VARCHAR(500) DEFAULT NULL COMMENT '头像',
+  `created_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+
+-- 项目表
+CREATE TABLE IF NOT EXISTS `projects` (
+  `id`            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `user_id`       INT UNSIGNED NOT NULL COMMENT '所属用户',
+  `name`          VARCHAR(100) NOT NULL COMMENT '项目名称',
+  `scene_json`    LONGTEXT DEFAULT NULL COMMENT '场景数据 JSON',
+  `thumbnail_url` VARCHAR(500) DEFAULT NULL COMMENT '缩略图',
+  `is_private`    TINYINT(1) NOT NULL DEFAULT 1 COMMENT '是否私有',
+  `created_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='项目表';

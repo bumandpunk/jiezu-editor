@@ -103,6 +103,7 @@ export interface EditorProps {
 
   // UI slots (v2)
   navbarSlot?: ReactNode
+  sidebarHeaderSlot?: ReactNode
   sidebarTabs?: (SidebarTab & { component: React.ComponentType })[]
   viewerToolbarLeft?: ReactNode
   viewerToolbarRight?: ReactNode
@@ -512,6 +513,7 @@ export default function Editor({
   appMenuButton,
   sidebarTop,
   navbarSlot,
+  sidebarHeaderSlot,
   sidebarTabs,
   viewerToolbarLeft,
   viewerToolbarRight,
@@ -829,6 +831,7 @@ export default function Editor({
           <>
             <EditorLayoutV2
               navbarSlot={navbarSlot}
+              sidebarHeaderSlot={sidebarHeaderSlot}
               overlays={
                 <>
                   <FloatingLevelSelector />

@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: '服务条款',
-  description: 'Pascal 编辑器和 Pascal 平台的服务条款',
+  description: '捷租建造编辑器和捷租建造平台的服务条款',
 }
 
 export default function TermsPage() {
@@ -16,16 +16,16 @@ export default function TermsPage() {
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/"
             >
-              Home
+              首页
             </Link>
             <span className="text-muted-foreground">/</span>
-            <span className="font-medium text-foreground">Terms of Service</span>
+            <span className="font-medium text-foreground">服务条款</span>
             <span className="text-muted-foreground">|</span>
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/privacy"
             >
-              Privacy Policy
+              隐私政策
             </Link>
           </nav>
         </div>
@@ -39,34 +39,24 @@ export default function TermsPage() {
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">1. 简介</h2>
             <p className="text-foreground/90 leading-relaxed">
-              Welcome to Pascal Editor (&quot;Editor&quot;) and the Pascal platform at pascal.app
-              (&quot;Platform&quot;), operated by Pascal Group Inc. (&quot;we,&quot; &quot;us,&quot;
-              or &quot;our&quot;). By accessing or using our services, you agree to these Terms of
-              Service.
+              欢迎使用捷租建造编辑器（以下简称"编辑器"）和捷租建造平台（以下简称"平台"）。通过访问或使用我们的服务，您同意遵守本服务条款。
             </p>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">2. 编辑器与平台</h2>
             <p className="text-foreground/90 leading-relaxed">
-              The Pascal Editor is open-source software released under the MIT License. You may use,
-              copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Editor
-              software in accordance with the MIT License terms.
+              捷租建造编辑器是基于 MIT 协议发布的开源软件。您可以根据 MIT 协议的条款使用、复制、修改、合并、发布、分发、再授权和/或出售编辑器软件的副本。
             </p>
             <p className="text-foreground/90 leading-relaxed">
-              The Pascal platform (pascal.app) and its associated services, including user accounts,
-              cloud storage, and project hosting, are proprietary services owned and operated by
-              Pascal Group Inc. These Terms govern your use of the Platform.
+              捷租建造平台及其相关服务（包括用户账户、云存储和项目托管）为专有服务，归捷租建造所有和运营。本条款规范您对平台的使用。
             </p>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">3. 账户与认证</h2>
             <p className="text-foreground/90 leading-relaxed">
-              To use certain features of the Platform, you must create an account. We use Google
-              OAuth and magic link email authentication through Supabase. You are responsible for
-              maintaining the security of your account credentials and for all activities that occur
-              under your account.
+              要使用平台的某些功能，您需要创建账户。您需使用手机号码和密码进行注册和登录。您有责任维护账户凭据的安全，并对账户下发生的所有活动承担责任。
             </p>
           </section>
 
@@ -74,103 +64,82 @@ export default function TermsPage() {
             <h2 className="font-semibold text-xl">4. 可接受的使用</h2>
             <p className="text-foreground/90 leading-relaxed">您同意不：</p>
             <ul className="list-disc space-y-2 pl-6 text-foreground/90">
-              <li>
-                Use the Platform for any unlawful purpose or in violation of any applicable laws
-              </li>
-              <li>
-                Upload, share, or distribute content that infringes intellectual property rights
-              </li>
-              <li>Attempt to gain unauthorized access to the Platform or its systems</li>
-              <li>Interfere with or disrupt the Platform&apos;s infrastructure</li>
-              <li>Upload malicious code, viruses, or harmful content</li>
-              <li>Harass, abuse, or harm other users</li>
-              <li>Use the Platform to send spam or unsolicited communications</li>
+              <li>将平台用于任何违法目的或违反适用法律法规的行为</li>
+              <li>上传、分享或传播侵犯知识产权的内容</li>
+              <li>尝试未经授权访问平台或其系统</li>
+              <li>干扰或破坏平台的基础设施</li>
+              <li>上传恶意代码、病毒或有害内容</li>
+              <li>骚扰、辱骂或伤害其他用户</li>
+              <li>利用平台发送垃圾信息或未经请求的通讯</li>
             </ul>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">5. 您的内容与知识产权</h2>
             <p className="text-foreground/90 leading-relaxed">
-              You retain full ownership of all content, projects, and data you create or upload to
-              the Platform (&quot;Your Content&quot;). By using the Platform, you grant us a limited
-              license to store, display, and transmit Your Content solely to provide our services to
-              you.
+              您对在平台上创建或上传的所有内容、项目和数据（以下简称"您的内容"）保留完整所有权。通过使用平台，您授予我们有限的许可，以便仅为向您提供服务而存储、展示和传输您的内容。
             </p>
             <p className="text-foreground/90 leading-relaxed">
-              We do not claim any ownership rights over Your Content. You may export or delete Your
-              Content at any time.
+              我们不主张对您的内容享有任何所有权。您可以随时导出或删除您的内容。
             </p>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">6. 平台所有权</h2>
             <p className="text-foreground/90 leading-relaxed">
-              The Platform, including its design, features, and proprietary code, is owned by Pascal
-              Group Inc. and protected by intellectual property laws. While the Editor source code
-              is open-source under the MIT License, the Platform services, branding, and
-              infrastructure remain our proprietary property.
+              平台（包括其设计、功能和专有代码）归捷租建造所有，受知识产权法律保护。虽然编辑器源代码基于 MIT 协议开源，但平台服务、品牌和基础设施仍为我们的专有财产。
             </p>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">7. 账户终止</h2>
             <p className="text-foreground/90 leading-relaxed">
-              We reserve the right to suspend or terminate your account if you violate these Terms
-              or engage in conduct that we determine is harmful to the Platform or other users. You
-              may also delete your account at any time by contacting us at{' '}
+              如果您违反本条款或从事我们认为对平台或其他用户有害的行为，我们保留暂停或终止您账户的权利。您也可以随时通过联系{' '}
               <a
                 className="text-foreground underline hover:text-foreground/80"
-                href="mailto:support@pascal.app"
+                href="mailto:support@jiezujianzo.com"
               >
-                support@pascal.app
+                support@jiezujianzo.com
               </a>
-              .
+              {' '}来删除您的账户。
             </p>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">8. 免责声明</h2>
             <p className="text-foreground/90 leading-relaxed">
-              THE PLATFORM IS PROVIDED &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; WITHOUT
-              WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-              IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
-              NON-INFRINGEMENT.
+              平台按"现状"和"可用状态"提供，不附带任何形式的明示或暗示保证，包括但不限于对适销性、特定用途适用性和不侵权的暗示保证。
             </p>
             <p className="text-foreground/90 leading-relaxed">
-              We do not warrant that the Platform will be uninterrupted, error-free, or free of
-              harmful components.
+              我们不保证平台将不间断运行、无错误或不含有害组件。
             </p>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">9. 责任限制</h2>
             <p className="text-foreground/90 leading-relaxed">
-              TO THE MAXIMUM EXTENT PERMITTED BY LAW, PASCAL GROUP INC. SHALL NOT BE LIABLE FOR ANY
-              INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF
-              DATA, PROFITS, OR GOODWILL, ARISING FROM YOUR USE OF THE PLATFORM.
+              在法律允许的最大范围内，捷租建造对因您使用平台而产生的任何间接、附带、特殊、后果性或惩罚性损害（包括数据、利润或商誉的损失）不承担责任。
             </p>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">10. 条款变更</h2>
             <p className="text-foreground/90 leading-relaxed">
-              We may update these Terms from time to time. We will notify you of material changes by
-              posting the updated Terms on the Platform. Your continued use of the Platform after
-              changes are posted constitutes your acceptance of the revised Terms.
+              我们可能会不时更新本条款。我们将通过在平台上发布更新后的条款来通知您重大变更。变更发布后，您继续使用平台即表示您接受修订后的条款。
             </p>
           </section>
 
           <section className="space-y-4">
             <h2 className="font-semibold text-xl">11. 联系我们</h2>
             <p className="text-foreground/90 leading-relaxed">
-              If you have questions about these Terms, please contact us at{' '}
+              如果您对本条款有任何疑问，请联系我们：{' '}
               <a
                 className="text-foreground underline hover:text-foreground/80"
-                href="mailto:support@pascal.app"
+                href="mailto:support@jiezujianzo.com"
               >
-                support@pascal.app
+                support@jiezujianzo.com
               </a>
-              .
+              。
             </p>
           </section>
         </article>

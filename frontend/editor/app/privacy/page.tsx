@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: '隐私政策',
-  description: 'Pascal 编辑器和 Pascal 平台的隐私政策',
+  description: '捷租建造编辑器和捷租建造平台的隐私政策',
 }
 
 export default function PrivacyPage() {
@@ -16,14 +16,14 @@ export default function PrivacyPage() {
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/"
             >
-              Home
+              首页
             </Link>
             <span className="text-muted-foreground">/</span>
             <Link
               className="text-muted-foreground transition-colors hover:text-foreground"
               href="/terms"
             >
-              Terms of Service
+              服务条款
             </Link>
             <span className="text-muted-foreground">|</span>
             <span className="font-medium text-foreground">隐私政策</span>
@@ -39,9 +39,7 @@ export default function PrivacyPage() {
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">1. 简介</h2>
             <p className="text-foreground/90 leading-relaxed">
-              Pascal Group Inc. (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) operates the
-              Pascal Editor and Platform at pascal.app. This Privacy Policy explains how we collect,
-              use, and protect your information when you use our services.
+              捷租建造（以下简称"我们"）运营捷租建造编辑器和捷租建造平台。本隐私政策说明了您在使用我们服务时，我们如何收集、使用和保护您的信息。
             </p>
           </section>
 
@@ -53,20 +51,19 @@ export default function PrivacyPage() {
               当您创建账户时，我们收集：
             </p>
             <ul className="list-disc space-y-2 pl-6 text-foreground/90">
-              <li>电子邮件地址</li>
-              <li>姓名</li>
-              <li>头像/个人图片</li>
-              <li>OAuth 提供方数据（通过 Google 登录时来自 Google）</li>
+              <li>手机号码</li>
+              <li>用户名</li>
+              <li>登录密码（加密存储）</li>
             </ul>
 
             <h3 className="mt-4 font-medium text-lg">项目数据</h3>
             <p className="text-foreground/90 leading-relaxed">
-              当您使用本平台时，我们存储您的项目，包括 3D 建筑设计、平面图及相关元数据。
+              当您使用本平台时，我们存储您的项目，包括 3D 建筑设计、场景配置及相关元数据。
             </p>
 
-            <h3 className="mt-4 font-medium text-lg">使用分析</h3>
+            <h3 className="mt-4 font-medium text-lg">使用数据</h3>
             <p className="text-foreground/90 leading-relaxed">
-              我们使用 Vercel Analytics 和 Speed Insights 收集匿名使用数据，包括页面浏览量、性能指标和常规使用模式，以帮助我们改进平台。
+              我们会收集匿名使用数据，包括页面访问量、性能指标和常规使用模式，以帮助我们持续改进平台。
             </p>
           </section>
 
@@ -77,7 +74,7 @@ export default function PrivacyPage() {
               <li>提供并维护您的账户</li>
               <li>在各设备间存储和同步您的项目</li>
               <li>根据使用模式改进我们的服务</li>
-              <li>发送有关新功能和更新的可选电子邮件通知（可在设置中取消订阅）</li>
+              <li>发送有关新功能和更新的通知（可在设置中取消）</li>
               <li>响应支持请求</li>
               <li>确保平台安全并防止滥用</li>
             </ul>
@@ -86,24 +83,21 @@ export default function PrivacyPage() {
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">4. 数据存储</h2>
             <p className="text-foreground/90 leading-relaxed">
-              您的数据通过 Supabase（PostgreSQL 数据库）存储在安全的云基础设施中。我们实施适当的技术和组织措施来保护您的数据。
+              您的数据存储在安全的云基础设施中。我们采取适当的技术和组织措施来保护您的数据安全，防止未经授权的访问、泄露或篡改。
             </p>
           </section>
 
           <section className="mb-8 space-y-4">
             <h2 className="font-semibold text-xl">5. 第三方服务</h2>
             <p className="text-foreground/90 leading-relaxed">
-              我们使用以下第三方服务来运营平台：
+              我们可能使用以下第三方服务运营平台：
             </p>
             <ul className="list-disc space-y-2 pl-6 text-foreground/90">
               <li>
-                <strong>Google</strong> - 登录 OAuth 认证
+                <strong>云存储服务</strong> - 用于存储项目数据和上传文件
               </li>
               <li>
-                <strong>Vercel</strong> - 应用托管、分析和性能监控
-              </li>
-              <li>
-                <strong>Supabase</strong> - 数据库托管和认证基础设施
+                <strong>分析服务</strong> - 用于收集匿名使用数据以改进产品
               </li>
             </ul>
             <p className="mt-4 text-foreground/90 leading-relaxed">
@@ -121,7 +115,7 @@ export default function PrivacyPage() {
                 <strong>会话 Cookie</strong> - 认证和保持登录状态所必需
               </li>
               <li>
-                <strong>分析 Cookie</strong> - 由 Vercel Analytics 用于收集匿名使用数据
+                <strong>分析 Cookie</strong> - 用于收集匿名使用数据
               </li>
             </ul>
           </section>
@@ -140,11 +134,11 @@ export default function PrivacyPage() {
               要行使上述任何权利，请联系我们：{' '}
               <a
                 className="text-foreground underline hover:text-foreground/80"
-                href="mailto:support@pascal.app"
+                href="mailto:support@jiezujianzo.com"
               >
-                support@pascal.app
+                support@jiezujianzo.com
               </a>
-              .
+              。
             </p>
           </section>
 
@@ -156,9 +150,9 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8 space-y-4">
-            <h2 className="font-semibold text-xl">9. 儿童隐私</h2>
+            <h2 className="font-semibold text-xl">9. 未成年人隐私</h2>
             <p className="text-foreground/90 leading-relaxed">
-              本平台不面向 13 岁以下儿童。我们不会故意收集 13 岁以下儿童的个人信息。如果您认为我们收集了此类信息，请立即联系我们。
+              本平台不面向 14 周岁以下未成年人。我们不会故意收集未成年人的个人信息。如果您认为我们收集了此类信息，请立即联系我们。
             </p>
           </section>
 
@@ -172,14 +166,14 @@ export default function PrivacyPage() {
           <section className="space-y-4">
             <h2 className="font-semibold text-xl">11. 联系我们</h2>
             <p className="text-foreground/90 leading-relaxed">
-              如果您对本隐私政策或我们处理数据的方式有疑问，请联系我们：{' '}
+              如果您对本隐私政策或我们处理数据的方式有任何疑问，请联系我们：{' '}
               <a
                 className="text-foreground underline hover:text-foreground/80"
-                href="mailto:support@pascal.app"
+                href="mailto:support@jiezujianzo.com"
               >
-                support@pascal.app
+                support@jiezujianzo.com
               </a>
-              .
+              。
             </p>
           </section>
         </article>

@@ -15,10 +15,12 @@ function LeftColumn({
   tabs,
   renderTabContent,
   sidebarOverlay,
+  headerSlot,
 }: {
   tabs: SidebarTab[]
   renderTabContent: (tabId: string) => ReactNode
   sidebarOverlay?: ReactNode
+  headerSlot?: ReactNode
 }) {
   const width = useSidebarStore((s) => s.width)
   const isCollapsed = useSidebarStore((s) => s.isCollapsed)
@@ -109,6 +111,7 @@ function LeftColumn({
         transition: isDragging ? 'none' : 'width 150ms ease',
       }}
     >
+      {headerSlot}
       <TabBar activeTab={activePanel} onTabChange={setActivePanel} tabs={tabs} />
       <div className="relative flex flex-1 flex-col overflow-hidden">
         {renderTabContent(activePanel)}
@@ -174,6 +177,7 @@ function RightColumn({
 
 export interface EditorLayoutV2Props {
   navbarSlot?: ReactNode
+  sidebarHeaderSlot?: ReactNode
   sidebarTabs?: SidebarTab[]
   renderTabContent: (tabId: string) => ReactNode
   sidebarOverlay?: ReactNode
@@ -185,6 +189,7 @@ export interface EditorLayoutV2Props {
 
 export function EditorLayoutV2({
   navbarSlot,
+  sidebarHeaderSlot,
   sidebarTabs = [],
   renderTabContent,
   sidebarOverlay,
@@ -202,6 +207,7 @@ export function EditorLayoutV2({
       <div className="flex min-h-0 flex-1">
         {sidebarTabs.length > 0 && (
           <LeftColumn
+            headerSlot={sidebarHeaderSlot}
             renderTabContent={renderTabContent}
             sidebarOverlay={sidebarOverlay}
             tabs={sidebarTabs}

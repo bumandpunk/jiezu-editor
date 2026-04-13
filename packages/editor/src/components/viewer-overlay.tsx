@@ -26,47 +26,47 @@ type ProjectOwner = {
 }
 
 const levelModeLabels: Record<'stacked' | 'exploded' | 'solo', string> = {
-  stacked: 'Stacked',
-  exploded: 'Exploded',
-  solo: 'Solo',
+  stacked: '叠加',
+  exploded: '展开',
+  solo: '单层',
 }
 
 const levelModeBadgeLabels: Record<'manual' | 'stacked' | 'exploded' | 'solo', string> = {
-  manual: 'Stack',
-  stacked: 'Stack',
-  exploded: 'Exploded',
-  solo: 'Solo',
+  manual: '叠加',
+  stacked: '叠加',
+  exploded: '展开',
+  solo: '单层',
 }
 
 const wallModeConfig = {
   up: {
     icon: (props: any) => (
-      <img alt="Full Height" height={28} src="/icons/room.png" width={28} {...props} />
+      <img alt="完整高度" height={28} src="/icons/room.png" width={28} {...props} />
     ),
-    label: 'Full Height',
+    label: '完整高度',
   },
   cutaway: {
     icon: (props: any) => (
-      <img alt="Cutaway" height={28} src="/icons/wallcut.png" width={28} {...props} />
+      <img alt="剖切" height={28} src="/icons/wallcut.png" width={28} {...props} />
     ),
-    label: 'Cutaway',
+    label: '剖切',
   },
   down: {
     icon: (props: any) => (
-      <img alt="Low" height={28} src="/icons/walllow.png" width={28} {...props} />
+      <img alt="低矮" height={28} src="/icons/walllow.png" width={28} {...props} />
     ),
-    label: 'Low',
+    label: '低矮',
   },
 }
 
 const getNodeName = (node: AnyNode): string => {
   if ('name' in node && node.name) return node.name
-  if (node.type === 'wall') return 'Wall'
-  if (node.type === 'item') return (node as { asset: { name: string } }).asset?.name || 'Item'
-  if (node.type === 'slab') return 'Slab'
-  if (node.type === 'ceiling') return 'Ceiling'
-  if (node.type === 'roof') return 'Roof'
-  if (node.type === 'roof-segment') return 'Roof Segment'
+  if (node.type === 'wall') return '墙体'
+  if (node.type === 'item') return (node as { asset: { name: string } }).asset?.name || '物品'
+  if (node.type === 'slab') return '楼板'
+  if (node.type === 'ceiling') return '天花板'
+  if (node.type === 'roof') return '屋顶'
+  if (node.type === 'roof-segment') return '屋顶段'
   return node.type
 }
 
@@ -156,7 +156,7 @@ export const ViewerOverlay = ({
             )}
             <div className="min-w-0">
               <div className="truncate font-medium text-foreground text-sm">
-                {projectName || 'Untitled'}
+                {projectName || '未命名'}
               </div>
               {owner?.username && (
                 <Link
@@ -177,7 +177,7 @@ export const ViewerOverlay = ({
                   className="text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => handleBreadcrumbClick('root')}
                 >
-                  Site
+                  场地
                 </button>
 
                 {building && (
@@ -187,7 +187,7 @@ export const ViewerOverlay = ({
                       className={`truncate transition-colors ${level ? 'text-muted-foreground hover:text-foreground' : 'font-medium text-foreground'}`}
                       onClick={() => handleBreadcrumbClick('building')}
                     >
-                      {building.name || 'Building'}
+                      {building.name || '建筑'}
                     </button>
                   </>
                 )}
@@ -328,14 +328,14 @@ export const ViewerOverlay = ({
                     ? 'bg-white/10'
                     : 'opacity-60 grayscale hover:bg-white/5 hover:opacity-100 hover:grayscale-0'
                 }
-                label={`Scans: ${showScans ? 'Visible' : 'Hidden'}`}
+                label={`扫描: ${showScans ? '显示' : '隐藏'}`}
                 onClick={() => useViewer.getState().setShowScans(!showScans)}
                 size="icon"
                 tooltipSide="top"
                 variant="ghost"
               >
                 <img
-                  alt="Scans"
+                  alt="扫描"
                   className="h-[28px] w-[28px] object-contain"
                   src="/icons/mesh.png"
                 />
@@ -349,14 +349,14 @@ export const ViewerOverlay = ({
                     ? 'bg-white/10'
                     : 'opacity-60 grayscale hover:bg-white/5 hover:opacity-100 hover:grayscale-0'
                 }
-                label={`Guides: ${showGuides ? 'Visible' : 'Hidden'}`}
+                label={`参考线: ${showGuides ? '显示' : '隐藏'}`}
                 onClick={() => useViewer.getState().setShowGuides(!showGuides)}
                 size="icon"
                 tooltipSide="top"
                 variant="ghost"
               >
                 <img
-                  alt="Guides"
+                  alt="参考线"
                   className="h-[28px] w-[28px] object-contain"
                   src="/icons/floorplan.png"
                 />
@@ -372,7 +372,7 @@ export const ViewerOverlay = ({
                   ? 'bg-violet-500/20 text-violet-400'
                   : 'hover:bg-white/5 hover:text-violet-400'
               }
-              label={`Camera: ${cameraMode === 'perspective' ? 'Perspective' : 'Orthographic'}`}
+              label={`镜头: ${cameraMode === 'perspective' ? '透视' : '正交'}`}
               onClick={() =>
                 useViewer
                   .getState()
@@ -393,7 +393,7 @@ export const ViewerOverlay = ({
                   ? 'text-muted-foreground/80 hover:bg-white/5 hover:text-foreground'
                   : 'bg-white/10 text-foreground',
               )}
-              label={`Levels: ${levelMode === 'manual' ? 'Manual' : levelModeLabels[levelMode as keyof typeof levelModeLabels]}`}
+              label={`楼层: ${levelMode === 'manual' ? '手动' : levelModeLabels[levelMode as keyof typeof levelModeLabels]}`}
               onClick={() => {
                 if (levelMode === 'manual') return useViewer.getState().setLevelMode('stacked')
                 const modes: ('stacked' | 'exploded' | 'solo')[] = ['stacked', 'exploded', 'solo']
@@ -428,7 +428,7 @@ export const ViewerOverlay = ({
                   ? 'bg-white/10'
                   : 'opacity-60 grayscale hover:bg-white/5 hover:opacity-100 hover:grayscale-0'
               }
-              label={`Walls: ${wallModeConfig[wallMode as keyof typeof wallModeConfig].label}`}
+              label={`墙体: ${wallModeConfig[wallMode as keyof typeof wallModeConfig].label}`}
               onClick={() => {
                 const modes: ('cutaway' | 'up' | 'down')[] = ['cutaway', 'up', 'down']
                 const nextIndex = (modes.indexOf(wallMode as any) + 1) % modes.length
@@ -479,14 +479,14 @@ export const ViewerOverlay = ({
 
             <ActionButton
               className="group hover:bg-white/5"
-              label="Top View"
+              label="俯视图"
               onClick={() => emitter.emit('camera-controls:top-view')}
               size="icon"
               tooltipSide="top"
               variant="ghost"
             >
               <img
-                alt="Top View"
+                alt="俯视图"
                 className="h-[28px] w-[28px] object-contain opacity-70 transition-opacity group-hover:opacity-100"
                 src="/icons/topview.png"
               />

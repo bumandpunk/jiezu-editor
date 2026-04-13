@@ -145,14 +145,14 @@ export function KeyboardShortcutsDialog() {
       <DialogTrigger asChild>
         <Button className="w-full justify-start gap-2" variant="outline">
           <Keyboard className="size-4" />
-          Keyboard Shortcuts
+          键盘快捷键
         </Button>
       </DialogTrigger>
       <DialogContent className="flex max-h-[85vh] flex-col overflow-hidden p-0 sm:max-w-3xl">
         <DialogHeader className="shrink-0 border-b px-6 py-4">
-          <DialogTitle>Keyboard Shortcuts</DialogTitle>
+          <DialogTitle>键盘快捷键</DialogTitle>
           <DialogDescription>
-            Shortcuts are context-aware and depend on the current phase or tool.
+            快捷键根据当前阶段或工具动态生效。
           </DialogDescription>
         </DialogHeader>
 

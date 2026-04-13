@@ -207,7 +207,7 @@ export const FirstPersonOverlay = ({ onExit }: { onExit: () => void }) => {
           <kbd className="rounded border border-border/50 bg-accent/50 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
             ESC
           </kbd>
-          退出街景视图
+          退出漫游视图
         </button>
       </div>
 

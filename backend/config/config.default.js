@@ -45,10 +45,15 @@ module.exports = () => {
     domain: process.env.COS_DOMAIN || '',
   };
 
-  // multipart 上传大小限制
+  // 腾讯云 COS 配置
+ 
+  // multipart 上传大小限制（提高到 500MB）
   config.multipart = {
     mode: 'stream',
-    fileSize: '50mb',
+    fileSize: '500mb',
+    // 扩展允许的文件类型（egg 默认不含 glb/gltf/obj 等模型格式）
+    // whitelist 为 null 时，fileExtensions 追加到内置白名单；whitelist 为数组时完全替换，不能设为路由
+    fileExtensions: [ '.glb', '.gltf', '.obj', '.mtl', '.zip' ],
   };
 
   // 中间件

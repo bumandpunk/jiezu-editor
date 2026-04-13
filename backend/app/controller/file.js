@@ -25,7 +25,7 @@ class FileController extends Controller {
     }
 
     const ext = path.extname(stream.filename || '').toLowerCase() || '.jpg';
-    const allowedExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.mp4', '.pdf'];
+    const allowedExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.mp4', '.pdf', '.glb', '.gltf', '.obj', '.mtl', '.zip'];
     if (!allowedExts.includes(ext)) {
       ctx.status = 400;
       ctx.body = { code: 400, message: `不支持的文件类型: ${ext}` };

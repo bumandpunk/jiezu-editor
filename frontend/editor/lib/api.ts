@@ -16,6 +16,12 @@ async function request(path: string, options: RequestInit = {}) {
     },
   })
   const data = await res.json()
+  if (res.status === 401) {
+    // 动态引入避免 SSR 报错
+    import('sonner').then(({ toast }) => {
+      toast.error('登录已过期，请重新登录')
+    })
+  }
   return { status: res.status, data }
 }
 

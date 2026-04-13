@@ -8,9 +8,10 @@ import {
   ViewerToolbarLeft,
   ViewerToolbarRight,
 } from '@pascal-app/editor'
-import { saveAsset, useScene } from '@pascal-app/core'
+import { useScene } from '@pascal-app/core'
 import { useParams, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 const SIDEBAR_TABS: (SidebarTab & { component: React.ComponentType })[] = [
   {
@@ -99,25 +100,42 @@ export default function EditorPage() {
     }
   }, [projectId])
 
-  // 上传 GLB/图片到本地 IndexedDB（本地版，后续可替换为 OSS）
+  // 上传模型/图片到后端（云端持久化），不再使用 IndexedDB
   const handleUploadAsset = useCallback(
     async (_pid: string, levelId: string, file: File, type: 'scan' | 'guide') => {
-      const assetUrl = await saveAsset(file)
-      const id = crypto.randomUUID()
-      const nodeId = `${type}_${id}` as any
-      useScene.getState().createNode(
-        {
-          id: nodeId,
-          type,
-          url: assetUrl,
-          name: file.name,
-          position: [0, 0, 0],
-          rotation: [0, 0, 0],
-          scale: 1,
-          opacity: type === 'scan' ? 100 : 50,
-        } as any,
-        levelId as any,
-      )
+      const toastId = toast.loading(`正在上传 ${file.name}…`)
+      try {
+        const res = await apiUpload(file)
+        if (res.status === 401) {
+          toast.error('登录已过期，请重新登录', { id: toastId })
+          return
+        }
+        const url: string | undefined = res.data?.data?.url ?? res.data?.url
+        if (!url) {
+          toast.error(res.data?.message || '上传失败，请重试', { id: toastId })
+          return
+        }
+
+        const id = crypto.randomUUID()
+        const nodeId = `${type}_${id}` as any
+        useScene.getState().createNode(
+          {
+            id: nodeId,
+            type,
+            url,
+            name: file.name,
+            position: [0, 0, 0],
+            rotation: [0, 0, 0],
+            scale: 1,
+            opacity: type === 'scan' ? 100 : 50,
+          } as any,
+          levelId as any,
+        )
+        toast.success(`${file.name} 上传成功`, { id: toastId })
+      } catch (err: any) {
+        toast.error(`上传失败：${err?.message || '网络错误'}`, { id: toastId })
+        console.error('资产上传失败', err)
+      }
     },
     [],
   )

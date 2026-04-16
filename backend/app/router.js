@@ -13,6 +13,9 @@ module.exports = app => {
   router.post('/api/auth/login', controller.auth.login);
   router.get('/api/auth/me', jwt, controller.auth.me);
 
+  // SSO 单点登录（来自 eso 主系统的 ticket 换 token，无需 jwt）
+  router.post('/api/sso/exchange', controller.sso.exchange);
+
   // 文件上传（需要登录）
   router.post('/api/upload', jwt, controller.file.upload);
 

@@ -52,13 +52,12 @@ class ProjectController extends Controller {
   async update() {
     const { ctx } = this;
     const { userId, tenantId } = this._getTenantAndUser();
-    const { name, scene, thumbnail_url, is_private } = ctx.request.body;
+    const { name, scene, thumbnail_url } = ctx.request.body;
 
     const ok = await ctx.service.project.update(ctx.params.id, tenantId, userId, {
       name,
       scene_json: scene ? JSON.stringify(scene) : undefined,
       thumbnail_url,
-      is_private,
     });
 
     if (!ok) {

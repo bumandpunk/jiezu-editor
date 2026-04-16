@@ -243,17 +243,6 @@ export default function ProjectsPage() {
                       </svg>
                     </div>
                   )}
-                  {/* 共享标记：他人创建的项目 */}
-                  {p.created_by !== myUserId && (
-                    <div style={{
-                      position: 'absolute', top: 8, left: 8,
-                      background: 'rgba(99,102,241,.7)', color: '#fff',
-                      fontSize: 10, padding: '2px 7px', borderRadius: 4,
-                      fontWeight: 600, letterSpacing: '.5px',
-                    }}>
-                      共享
-                    </div>
-                  )}
                   {/* 编辑/删除按钮：仅创建者可见 */}
                   {p.created_by === myUserId && (
                     <div className="pl-card-actions">

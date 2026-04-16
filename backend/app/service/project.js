@@ -58,7 +58,6 @@ class ProjectService extends Service {
     if (updates.name !== undefined) data.name = updates.name;
     if (updates.scene_json !== undefined) data.scene_json = updates.scene_json;
     if (updates.thumbnail_url !== undefined) data.thumbnail_url = updates.thumbnail_url;
-    if (updates.is_private !== undefined) data.is_private = updates.is_private;
     data.updated_at = new Date();
 
     // 只有创建者才能修改

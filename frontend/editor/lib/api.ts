@@ -51,10 +51,11 @@ export async function apiGetProjects() {
   return request('/api/projects')
 }
 
-export async function apiCreateProject(name: string, is_private = 1) {
+export async function apiCreateProject(name: string) {
   return request('/api/projects', {
     method: 'POST',
-    body: JSON.stringify({ name, is_private }),
+    // 当前前端没有“是否共享”设置入口，新建项目默认按共享项目创建
+    body: JSON.stringify({ name, is_private: 0 }),
   })
 }
 
@@ -64,7 +65,7 @@ export async function apiGetProject(id: number | string) {
 
 export async function apiSaveProject(
   id: number | string,
-  payload: { name?: string; scene?: object; thumbnail_url?: string; is_private?: number },
+  payload: { name?: string; scene?: object; thumbnail_url?: string },
 ) {
   return request(`/api/projects/${id}`, {
     method: 'PUT',

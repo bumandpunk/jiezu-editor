@@ -45,25 +45,31 @@ class SsoController extends Controller {
 
     // 用 eso tenantId + userId 作为唯一标识，存入 sso_id 字段
     const ssoId = `sso_${esoUser.tenantId}_${esoUser.userId}`;
+    const tenantId = Number(esoUser.tenantId);
 
-    // 查找或自动创建用户
+    // 查找或自动创建用户，同时确保 tenant_id 字段最新
     let user = await app.mysql.get('users', { sso_id: ssoId });
     if (!user) {
       const now = new Date();
       const result = await app.mysql.insert('users', {
         sso_id: ssoId,
+        tenant_id: tenantId,
         phone: null,
         password_hash: null,
         avatar_url: null,
         created_at: now,
         updated_at: now,
       });
-      user = { id: result.insertId, sso_id: ssoId };
+      user = { id: result.insertId, sso_id: ssoId, tenant_id: tenantId };
+    } else if (user.tenant_id !== tenantId) {
+      // 兼容旧数据：tenant_id 字段缺失时补填
+      await app.mysql.update('users', { tenant_id: tenantId }, { where: { id: user.id } });
+      user.tenant_id = tenantId;
     }
 
-    // 签发 jiezu_token
+    // 签发 jiezu_token，payload 中携带 tenantId 供后续接口直接使用
     const token = jwt.sign(
-      { id: user.id, sso_id: user.sso_id },
+      { id: user.id, sso_id: user.sso_id, tenantId, esoUserId: esoUser.userId },
       app.config.jwt.secret,
       { expiresIn: app.config.jwt.expiresIn }
     );

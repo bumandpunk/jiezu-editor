@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from 'react'
 
 interface Project {
   id: number
+  tenant_id: number
+  created_by: number
   name: string
   thumbnail_url: string | null
   is_private: number
@@ -22,8 +24,10 @@ interface User {
 export default function ProjectsPage() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
+  const [myUserId, setMyUserId] = useState<number | null>(null)
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [isSsoUser, setIsSsoUser] = useState(false)
   const [creating, setCreating] = useState(false)
   const [showNew, setShowNew] = useState(false)
   const [newName, setNewName] = useState('')
@@ -41,6 +45,14 @@ export default function ProjectsPage() {
   useEffect(() => {
     const token = localStorage.getItem('jiezu_token')
     if (!token) { router.replace('/auth'); return }
+    // 解码 JWT payload：判断是否 SSO 用户，并记录当前 editor user id
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      if (payload.sso_id) setIsSsoUser(true)
+      if (payload.id) setMyUserId(payload.id)
+    } catch {
+      // token 格式异常，忽略
+    }
     // 优先用缓存快速渲染，再异步刷新最新用户信息
     const cached = localStorage.getItem('jiezu_user')
     if (cached) setUser(JSON.parse(cached))
@@ -151,7 +163,9 @@ export default function ProjectsPage() {
           </div>
           <div className="pl-header-right">
             {user && <span className="pl-username">{user.username}</span>}
-            <button className="pl-logout" onClick={handleLogout} type="button">退出</button>
+            {!isSsoUser && (
+              <button className="pl-logout" onClick={handleLogout} type="button">退出</button>
+            )}
           </div>
         </div>
       </header>
@@ -229,32 +243,46 @@ export default function ProjectsPage() {
                       </svg>
                     </div>
                   )}
-                  <div className="pl-card-actions">
-                    <button
-                      className="pl-card-action-btn"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setRenameTarget({ id: p.id, name: p.name })
-                        setRenameName(p.name)
-                      }}
-                      title="重命名"
-                      type="button"
-                    >
-                      <svg fill="none" height="13" viewBox="0 0 16 16" width="13">
-                        <path d="M11 2l3 3-8 8H3v-3l8-8z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/>
-                      </svg>
-                    </button>
-                    <button
-                      className="pl-card-action-btn delete"
-                      onClick={(e) => { e.stopPropagation(); setDeleteTarget({ id: p.id, name: p.name }) }}
-                      title="删除项目"
-                      type="button"
-                    >
-                      <svg fill="none" height="14" viewBox="0 0 16 16" width="14">
-                        <path d="M3 4h10M6 4V3h4v1M5 4l.5 9h5L11 4" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/>
-                      </svg>
-                    </button>
-                  </div>
+                  {/* 共享标记：他人创建的项目 */}
+                  {p.created_by !== myUserId && (
+                    <div style={{
+                      position: 'absolute', top: 8, left: 8,
+                      background: 'rgba(99,102,241,.7)', color: '#fff',
+                      fontSize: 10, padding: '2px 7px', borderRadius: 4,
+                      fontWeight: 600, letterSpacing: '.5px',
+                    }}>
+                      共享
+                    </div>
+                  )}
+                  {/* 编辑/删除按钮：仅创建者可见 */}
+                  {p.created_by === myUserId && (
+                    <div className="pl-card-actions">
+                      <button
+                        className="pl-card-action-btn"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setRenameTarget({ id: p.id, name: p.name })
+                          setRenameName(p.name)
+                        }}
+                        title="重命名"
+                        type="button"
+                      >
+                        <svg fill="none" height="13" viewBox="0 0 16 16" width="13">
+                          <path d="M11 2l3 3-8 8H3v-3l8-8z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/>
+                        </svg>
+                      </button>
+                      <button
+                        className="pl-card-action-btn delete"
+                        onClick={(e) => { e.stopPropagation(); setDeleteTarget({ id: p.id, name: p.name }) }}
+                        title="删除项目"
+                        type="button"
+                      >
+                        <svg fill="none" height="14" viewBox="0 0 16 16" width="14">
+                          <path d="M3 4h10M6 4V3h4v1M5 4l.5 9h5L11 4" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/>
+                        </svg>
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="pl-card-info">
                   <span className="pl-card-name">{p.name}</span>

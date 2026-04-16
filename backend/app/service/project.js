@@ -3,21 +3,25 @@
 const { Service } = require('egg');
 
 class ProjectService extends Service {
-  async list(userId) {
+  // 列出租户下所有项目（is_private=1 时只返回自己创建的）
+  async list(tenantId, userId) {
     const { app } = this;
-    const projects = await app.mysql.select('projects', {
-      where: { user_id: userId },
-      orders: [['updated_at', 'desc']],
-      columns: ['id', 'name', 'thumbnail_url', 'is_private', 'created_at', 'updated_at'],
-    });
+    const projects = await app.mysql.query(
+      `SELECT id, tenant_id, created_by, name, thumbnail_url, is_private, created_at, updated_at
+       FROM projects
+       WHERE tenant_id = ? AND (is_private = 0 OR created_by = ?)
+       ORDER BY updated_at DESC`,
+      [tenantId, userId]
+    );
     return projects;
   }
 
-  async create({ userId, name, is_private = 0 }) {
+  async create({ tenantId, userId, name, is_private = 0 }) {
     const { app } = this;
     const now = new Date();
     const result = await app.mysql.insert('projects', {
-      user_id: userId,
+      tenant_id: tenantId,
+      created_by: userId,
       name,
       is_private,
       scene_json: null,
@@ -27,6 +31,8 @@ class ProjectService extends Service {
     });
     return {
       id: result.insertId,
+      tenant_id: tenantId,
+      created_by: userId,
       name,
       is_private,
       created_at: now,
@@ -34,15 +40,20 @@ class ProjectService extends Service {
     };
   }
 
-  async findById(id, userId) {
+  // 详情：租户内所有人都可以查看共享项目；私有项目只有创建者可查
+  async findById(id, tenantId, userId) {
     const { app } = this;
-    const project = await app.mysql.get('projects', { id, user_id: userId });
-    return project || null;
+    const rows = await app.mysql.query(
+      `SELECT * FROM projects
+       WHERE id = ? AND tenant_id = ? AND (is_private = 0 OR created_by = ?)
+       LIMIT 1`,
+      [id, tenantId, userId]
+    );
+    return rows[0] || null;
   }
 
-  async update(id, userId, updates) {
+  async update(id, tenantId, userId, updates) {
     const { app } = this;
-    // 过滤掉 undefined 字段
     const data = {};
     if (updates.name !== undefined) data.name = updates.name;
     if (updates.scene_json !== undefined) data.scene_json = updates.scene_json;
@@ -50,15 +61,21 @@ class ProjectService extends Service {
     if (updates.is_private !== undefined) data.is_private = updates.is_private;
     data.updated_at = new Date();
 
+    // 只有创建者才能修改
     const result = await app.mysql.update('projects', data, {
-      where: { id, user_id: userId },
+      where: { id, tenant_id: tenantId, created_by: userId },
     });
     return result.affectedRows > 0;
   }
 
-  async remove(id, userId) {
+  async remove(id, tenantId, userId) {
     const { app } = this;
-    const result = await app.mysql.delete('projects', { id, user_id: userId });
+    // 只有创建者才能删除
+    const result = await app.mysql.delete('projects', {
+      id,
+      tenant_id: tenantId,
+      created_by: userId,
+    });
     return result.affectedRows > 0;
   }
 }

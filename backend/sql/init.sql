@@ -6,8 +6,9 @@ USE jiezu;
 -- 用户表
 CREATE TABLE IF NOT EXISTS `users` (
   `id`            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  `phone`         VARCHAR(11) NOT NULL UNIQUE COMMENT '手机号',
-  `password_hash` VARCHAR(100) NOT NULL COMMENT '加密密码',
+  `phone`         VARCHAR(20) DEFAULT NULL UNIQUE COMMENT '手机号',
+  `sso_id`        VARCHAR(64) DEFAULT NULL UNIQUE COMMENT 'SSO 登录标识（sso_{tenantId}_{userId}）',
+  `password_hash` VARCHAR(100) DEFAULT NULL COMMENT '加密密码',
   `avatar_url`    VARCHAR(500) DEFAULT NULL COMMENT '头像',
   `created_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

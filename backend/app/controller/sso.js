@@ -43,27 +43,27 @@ class SsoController extends Controller {
       return;
     }
 
-    // 用 eso userId + tenantId 作为 jiezu 的唯一标识
-    // phone 字段用 sso_{tenantId}_{userId} 占位，确保唯一
-    const ssoPhone = `sso_${esoUser.tenantId}_${esoUser.userId}`;
+    // 用 eso tenantId + userId 作为唯一标识，存入 sso_id 字段
+    const ssoId = `sso_${esoUser.tenantId}_${esoUser.userId}`;
 
-    // 查找或自动创建 jiezu 用户
-    let user = await app.mysql.get('users', { phone: ssoPhone });
+    // 查找或自动创建用户
+    let user = await app.mysql.get('users', { sso_id: ssoId });
     if (!user) {
       const now = new Date();
       const result = await app.mysql.insert('users', {
-        phone: ssoPhone,
-        password_hash: 'sso_no_password',
+        sso_id: ssoId,
+        phone: null,
+        password_hash: null,
         avatar_url: null,
         created_at: now,
         updated_at: now,
       });
-      user = { id: result.insertId, phone: ssoPhone };
+      user = { id: result.insertId, sso_id: ssoId };
     }
 
     // 签发 jiezu_token
     const token = jwt.sign(
-      { id: user.id, phone: user.phone },
+      { id: user.id, sso_id: user.sso_id },
       app.config.jwt.secret,
       { expiresIn: app.config.jwt.expiresIn }
     );
@@ -74,7 +74,6 @@ class SsoController extends Controller {
         token,
         user: {
           id: user.id,
-          phone: user.phone,
           realName: esoUser.realName,
         },
       },

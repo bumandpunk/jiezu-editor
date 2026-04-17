@@ -7,9 +7,9 @@ module.exports = appInfo => {
   config.cors = {
     origin: (ctx) => {
       const allowed = [
-        'http://localhost:3002',
-        'http://localhost:5173',
-        'http://localhost:5174',
+        'http://10.10.80.13:3002',
+        'http://10.10.80.13:5173',
+        'http://10.10.80.13:5174',
       ];
       const origin = ctx.get('Origin');
       return allowed.includes(origin) ? origin : '';

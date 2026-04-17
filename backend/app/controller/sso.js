@@ -4,7 +4,7 @@ const { Controller } = require('egg');
 const jwt = require('jsonwebtoken');
 
 // eso 主系统后端地址
-const ESO_API = process.env.ESO_API_URL || 'http://localhost:7001';
+const ESO_API = process.env.ESO_API_URL || 'http://10.10.80.13:7001';
 
 class SsoController extends Controller {
   // POST /api/sso/exchange

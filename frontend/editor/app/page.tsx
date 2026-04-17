@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7002'
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://10.10.80.13:7002'
 
 export default function Home() {
   const router = useRouter()

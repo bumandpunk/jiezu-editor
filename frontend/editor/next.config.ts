@@ -1,8 +1,18 @@
 import type { NextConfig } from 'next'
 
+const BACKEND_URL = process.env.JIEZU_BACKEND_URL || 'http://localhost:7002'
+
 const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/jiezu-api/:path*',
+        destination: `${BACKEND_URL}/api/:path*`,
+      },
+    ]
   },
   transpilePackages: ['three', '@pascal-app/viewer', '@pascal-app/core', '@pascal-app/editor'],
   turbopack: {

@@ -7,7 +7,7 @@
     "declarations": true
   },
   "scripts": {
-    "dev": "egg-bin dev --port 7002",
+    "dev": "egg-bin dev --port 7002 --hostname 0.0.0.0",
     "kill": "lsof -ti:7002 | xargs kill -9 2>/dev/null || echo 'No processes on port 7002'",
     "start": "egg-scripts start --daemon --title=jiezu-server --port 7002",
     "stop": "egg-scripts stop --title=jiezu-server",

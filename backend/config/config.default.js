@@ -36,7 +36,8 @@ module.exports = () => {
     agent: false,
   };
 
-  // 腾讯云 COS 配置（密钥必须通过环境变量注入，不要写死）
+  // ESO 主系统后端地址（供 SSO ticket 验证用）
+  config.esoApi = process.env.ESO_API_URL || 'http://localhost:7001';
   config.cos = {
     secretId: process.env.COS_SECRET_ID || '',
     secretKey: process.env.COS_SECRET_KEY || '',

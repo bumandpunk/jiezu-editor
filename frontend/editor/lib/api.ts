@@ -1,4 +1,6 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://10.10.80.13:7002'
+// 使用相对路径，由 next.config.ts rewrites 代理到后端
+// 这样无论本机还是局域网其他机器访问，都不会硬编码 IP
+const BASE_URL = ''
 
 function getToken() {
   if (typeof window === 'undefined') return null
@@ -7,7 +9,9 @@ function getToken() {
 
 async function request(path: string, options: RequestInit = {}) {
   const token = getToken()
-  const res = await fetch(`${BASE_URL}${path}`, {
+  // 将 /api/* 替换为 /jiezu-api/*，走 Next.js rewrites 代理
+  const proxyPath = path.replace(/^\/api\//, '/jiezu-api/')
+  const res = await fetch(`${BASE_URL}${proxyPath}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -17,7 +21,6 @@ async function request(path: string, options: RequestInit = {}) {
   })
   const data = await res.json()
   if (res.status === 401) {
-    // 动态引入避免 SSR 报错
     import('sonner').then(({ toast }) => {
       toast.error('登录已过期，请重新登录')
     })
@@ -83,7 +86,7 @@ export async function apiUpload(file: File) {
   const token = typeof window !== 'undefined' ? localStorage.getItem('jiezu_token') : null
   const form = new FormData()
   form.append('file', file)
-  const res = await fetch(`${BASE_URL}/api/upload`, {
+  const res = await fetch(`/jiezu-api/upload`, {
     method: 'POST',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: form,

@@ -3,15 +3,13 @@
 const { Controller } = require('egg');
 const jwt = require('jsonwebtoken');
 
-// eso 主系统后端地址
-const ESO_API = process.env.ESO_API_URL || 'http://10.10.80.13:7001';
-
 class SsoController extends Controller {
   // POST /api/sso/exchange
   // body: { ticket: string }
   // 向 eso 主系统验证 ticket，换取 jiezu_token
   async exchange() {
     const { ctx, app } = this;
+    const ESO_API = app.config.esoApi || process.env.ESO_API_URL || 'http://10.10.80.40:7001';
     const { ticket } = ctx.request.body;
 
     if (!ticket) {

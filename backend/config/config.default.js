@@ -4,7 +4,7 @@ module.exports = () => {
   const config = {};
 
   // 应用密钥
-  config.keys = 'jiezu_secret_2026';
+  config.keys = process.env.APP_KEYS || 'jiezu_dev_secret';
 
   // 关闭 CSRF（纯 API 项目）
   config.security = {
